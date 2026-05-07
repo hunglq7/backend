@@ -3,7 +3,11 @@ const db = require('./db');
 const findByEmail = async (email) => {
   const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
   if (rows[0]) {
-    rows[0].roles = rows[0].roles || ['user'];
+    try {
+      rows[0].roles = rows[0].roles ? JSON.parse(rows[0].roles) : ['user'];
+    } catch (e) {
+      rows[0].roles = ['user'];
+    }
   }
   return rows[0] || null;
 };
@@ -11,7 +15,11 @@ const findByEmail = async (email) => {
 const findByUsername = async (username) => {
   const [rows] = await db.execute('SELECT * FROM users WHERE username = ?', [username]);
   if (rows[0]) {
-    rows[0].roles = rows[0].roles || ['user'];
+    try {
+      rows[0].roles = rows[0].roles ? JSON.parse(rows[0].roles) : ['user'];
+    } catch (e) {
+      rows[0].roles = ['user'];
+    }
   }
   return rows[0] || null;
 };
@@ -19,7 +27,11 @@ const findByUsername = async (username) => {
 const findById = async (id) => {
   const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [id]);
   if (rows[0]) {
-    rows[0].roles = rows[0].roles || ['user'];
+    try {
+      rows[0].roles = rows[0].roles ? JSON.parse(rows[0].roles) : ['user'];
+    } catch (e) {
+      rows[0].roles = ['user'];
+    }
   }
   return rows[0] || null;
 };
@@ -40,10 +52,19 @@ const updateUser = async (id, username, email, phone, avatar, roles) => {
 
 const getAllUsers = async () => {
   const [rows] = await db.execute('SELECT id, username, email, phone, avatar, roles, created_at FROM users ORDER BY created_at DESC');
-  return rows.map(row => ({
-    ...row,
-    roles: row.roles || ['user']
-  }));
+  return rows.map(row => {
+    try {
+      return {
+        ...row,
+        roles: row.roles ? JSON.parse(row.roles) : ['user']
+      };
+    } catch (e) {
+      return {
+        ...row,
+        roles: ['user']
+      };
+    }
+  });
 };
 
 const deleteUser = async (id) => {

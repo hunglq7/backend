@@ -31,15 +31,15 @@ const createUser = async (username, email, password, phone, avatar, roles) => {
   );
 };
 
-const updateUser = async (id, username, email, phone, avatar, roles) => {
+const updateUser = async (id, username, email, phone, avatar, roles, description) => {
   return db.execute(
-    'UPDATE users SET username = ?, email = ?, phone = ?, avatar = ?, roles = ? WHERE id = ?',
-    [username, email, phone, avatar, JSON.stringify(roles), id]
+    'UPDATE users SET username = ?, email = ?, phone = ?, avatar = ?, roles = ?, description = ? WHERE id = ?',
+    [username, email, phone, avatar, JSON.stringify(roles), description, id]
   );
 };
 
 const getAllUsers = async () => {
-  const [rows] = await db.execute('SELECT id, username, email, phone, avatar, roles, created_at FROM users ORDER BY created_at DESC');
+  const [rows] = await db.execute('SELECT id, username, email, phone, avatar, roles, description, created_at FROM users ORDER BY created_at DESC');
   return rows.map(row => ({
     ...row,
     roles: row.roles || ['user']

@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const authMiddleware = require('../middleware/authMiddleware');
 
 const router = express.Router();
 const uploadDir = path.join(__dirname, '../../uploads');
@@ -49,7 +50,7 @@ function handleUpload(req, res) {
   });
 }
 
-router.post('/', upload.single('file'), handleUpload);
-router.post('/avatar', upload.single('file'), handleUpload);
+router.post('/', authMiddleware, upload.single('file'), handleUpload);
+router.post('/avatar', authMiddleware, upload.single('file'), handleUpload);
 
 module.exports = router;

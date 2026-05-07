@@ -83,7 +83,7 @@ const createUser = async (req, res) => {
 const updateUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { username, email, phone, avatar, roles } = req.body;
+    const { username, email, phone, avatar, roles, description } = req.body;
 
     const user = await userModel.findById(id);
     if (!user) {
@@ -105,7 +105,7 @@ const updateUser = async (req, res) => {
     }
 
     const userRoles = roles || parseRoles(user.roles);
-    await userModel.updateUser(id, username || user.username, email || user.email, phone, avatar, userRoles);
+    await userModel.updateUser(id, username || user.username, email || user.email, phone, avatar, userRoles, description || user.description);
 
     res.json({
       id: parseInt(id),
@@ -113,6 +113,7 @@ const updateUser = async (req, res) => {
       email: email || user.email,
       phone,
       avatar,
+      description: description || user.description,
       roles: userRoles,
     });
   } catch (error) {

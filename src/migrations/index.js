@@ -6,5 +6,6 @@ const createDanhMucDonViTable = require('./005-create-danh-muc-don-vi-table');
 const createViTriLapDatTable = require('./006-create-vi-tri-lap-dat-table');
 const allowNullEmail = require('./007-allow-null-email');
 const createCamerasTable = require('./008-create-cameras-table');
+const addDescriptionToUsers = require('./009-add-description-to-users');
 
-module.exports = [createUsersTable, createCameraCategoryTable, updateUsersTable, updateDanhMucCameraTable, createDanhMucDonViTable, createViTriLapDatTable, allowNullEmail, createCamerasTable];
+module.exports = [createUsersTable, createCameraCategoryTable, updateUsersTable, updateDanhMucCameraTable, createDanhMucDonViTable, createViTriLapDatTable, allowNullEmail, createCamerasTable, addDescriptionToUsers];

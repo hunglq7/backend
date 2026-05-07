@@ -1,21 +1,47 @@
 const http = require('http');
 const https = require('https');
+const net = require('net');
 const { exec } = require('child_process');
 const os = require('os');
 const XLSX = require('xlsx');
 const cameraModel = require('../models/cameraModel');
 
 const pingHost = async (address) => {
-  const host = address.replace(/^https?:\/\//i, '').split(/[/?#]/)[0];
+  const host = address.replace(/^https?:\/\//i, '').split(/[/?#:]/)[0].trim();
   const platform = os.platform();
   const pingCommand = platform === 'win32'
     ? `ping -n 1 -w 3000 ${host}`
     : `ping -c 1 -W 3 ${host}`;
 
   return new Promise((resolve) => {
-    exec(pingCommand, (error) => {
-      resolve(!error);
+    exec(pingCommand, (error, stdout, stderr) => {
+      if (!error) {
+        return resolve(true);
+      }
+      resolve(false);
     });
+  });
+};
+
+const checkTcpPort = (address, port, timeout = 2000) => {
+  return new Promise((resolve) => {
+    const socket = new net.Socket();
+    const host = address.replace(/^https?:\/\//i, '').split(/[/?#:]/)[0].trim();
+
+    socket.setTimeout(timeout);
+    socket.once('connect', () => {
+      socket.destroy();
+      resolve(true);
+    });
+    socket.once('timeout', () => {
+      socket.destroy();
+      resolve(false);
+    });
+    socket.once('error', () => {
+      socket.destroy();
+      resolve(false);
+    });
+    socket.connect(port, host);
   });
 };
 
@@ -25,58 +51,24 @@ const probeCameraAddress = async (address) => {
     return false;
   }
 
-  // First try ping - this is the primary check for camera connectivity
   const pingResult = await pingHost(address);
   if (pingResult) {
     console.log(`Camera ${address} is reachable via ping`);
-
-    // Try to determine if this is a camera by checking common camera ports
-    // Many cameras don't have web interfaces but are still online
-    if (!/^https?:\/\//i.test(url)) {
-      url = `http://${url}`;
-    }
-
-    const parsed = new URL(url);
-    const portsToCheck = [80, 8000, 8080]; // Common camera web ports
-
-    for (const port of portsToCheck) {
-      try {
-        const portUrl = new URL(url);
-        portUrl.port = port.toString();
-
-        const httpCheck = await new Promise((resolve) => {
-          const client = portUrl.protocol === 'https:' ? https : http;
-          const request = client.request(portUrl, { method: 'HEAD', timeout: 2000 }, (response) => {
-            const isOnline = response.statusCode >= 200 && response.statusCode < 500;
-            response.destroy();
-            resolve(isOnline);
-          });
-
-          request.on('timeout', () => {
-            request.destroy();
-            resolve(false);
-          });
-
-          request.on('error', () => resolve(false));
-          request.end();
-        });
-
-        if (httpCheck) {
-          console.log(`Camera ${address} has web interface on port ${port}`);
-          return true;
-        }
-      } catch (error) {
-        // Continue to next port
-      }
-    }
-
-    // If ping works but no web interface found, still consider camera online
-    // Many cameras are accessible via RTSP/ONVIF without web interface
-    console.log(`Camera ${address} is online (ping successful, no web interface found)`);
     return true;
   }
 
-  console.log(`Camera ${address} is offline (ping failed)`);
+  console.log(`Camera ${address} ping failed, trying TCP ports`);
+
+  const portsToCheck = [80, 8000, 8080, 554, 8554, 5000];
+  for (const port of portsToCheck) {
+    const portOpen = await checkTcpPort(url, port, 2000);
+    if (portOpen) {
+      console.log(`Camera ${address} responded on TCP port ${port}`);
+      return true;
+    }
+  }
+
+  console.log(`Camera ${address} is offline (ping and TCP checks failed)`);
   return false;
 };
 
@@ -189,13 +181,17 @@ const deleteCameras = async (req, res) => {
 const scanCamera = async (req, res) => {
   try {
     const { id } = req.params;
+    console.log(`Scanning camera with id: ${id}`);
     const camera = await cameraModel.findById(id);
     if (!camera) {
+      console.log(`Camera not found: ${id}`);
       return res.status(404).json({ error: 'Camera not found' });
     }
 
+    console.log(`Scanning camera ${camera.ip_address}`);
     const isOnline = await probeCameraAddress(camera.ip_address);
     const last_check = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    console.log(`Camera ${camera.ip_address} online status: ${isOnline}, last_check: ${last_check}`);
     await cameraModel.updateCameraStatus(id, isOnline, last_check);
 
     res.json({
@@ -240,9 +236,9 @@ const importCameras = async (req, res) => {
 
     const inserted = [];
     for (const row of rows) {
-      const name = String(row.name || row.Name || row['Tên thiết bị'] || '').trim();
-      const ip_address = String(row.ip_address || row.IP || row['Địa chỉ IP'] || '').trim();
-      const location = String(row.location || row.Location || row['Vị trí lắp đặt'] || '').trim() || null;
+      const name = String(row.name || row.Name || row['Tên thiết bị'] || row['Device Name'] || '').trim();
+      const ip_address = String(row.ip_address || row.IP || row['Địa chỉ IP'] || row['IP Address'] || '').trim();
+      const location = String(row.location || row.Location || row['Vị trí lắp đặt'] || row['Location'] || '').trim() || null;
       if (!name || !ip_address) {
         continue;
       }

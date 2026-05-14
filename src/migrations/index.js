@@ -8,13 +8,17 @@ const allowNullEmail = require('./007-allow-null-email');
 const createCamerasTable = require('./008-create-cameras-table');
 const addDescriptionToUsers = require('./009-add-description-to-users');
 const createDanhMucChucVuTable = require('./010-create-danh-muc-chuc-vu-table');
-const createCategoriesTable = require('./011-create-categories-table');
-const createBrandsTable = require('./012-create-brands-table');
-const createModelsTable = require('./013-create-models-table');
-const createAreasTable = require('./014-create-areas-table');
-const createWarehousesTable = require('./015-create-warehouses-table');
-const createSuppliersTable = require('./016-create-suppliers-table');
-const createDeviceStatusTable = require('./017-create-device-status-table');
-const createDevicesTable = require('./018-create-devices-table');
+const createThietBiTable = require('./011-create-thiet-bi-table');
 
-module.exports = [createUsersTable, createCameraCategoryTable, updateUsersTable, updateDanhMucCameraTable, createDanhMucDonViTable, createViTriLapDatTable, allowNullEmail, createCamerasTable, addDescriptionToUsers, createDanhMucChucVuTable, createCategoriesTable, createBrandsTable, createModelsTable, createAreasTable, createWarehousesTable, createSuppliersTable, createDeviceStatusTable, createDevicesTable];
+module.exports = [createUsersTable,
+     createCameraCategoryTable,
+      updateUsersTable, 
+      updateDanhMucCameraTable,
+       createDanhMucDonViTable, 
+       createViTriLapDatTable, 
+       allowNullEmail, 
+       createCamerasTable, 
+       addDescriptionToUsers, 
+       createDanhMucChucVuTable,
+       createThietBiTable
+    ];

@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const homeController = require('../controllers/homeController');
 const authMiddleware = require('../middleware/authMiddleware');
 
 /**
@@ -20,19 +21,8 @@ const authMiddleware = require('../middleware/authMiddleware');
  *       200:
  *         description: Dữ liệu biểu đồ tròn
  */
-router.get('/pie', authMiddleware, (req, res) => {
-  const { by } = req.query;
-  // Mock data
-  const pie = [
-    { value: Math.floor(Math.random() * 90) + 10, code: "electronics" },
-    { value: Math.floor(Math.random() * 90) + 10, code: "home_goods" },
-    { value: Math.floor(Math.random() * 90) + 10, code: "apparel_accessories" },
-    { value: Math.floor(Math.random() * 90) + 10, code: "food_beverages" },
-    { value: Math.floor(Math.random() * 90) + 10, code: "beauty_skincare" },
-  ];
-  res.json({ code: 200, success: true, result: pie, message: 'ok' });
-});
 
+router.get('/pie', authMiddleware, homeController.pie);
 /**
  * @swagger
  * /api/home/line:
@@ -55,17 +45,8 @@ router.get('/pie', authMiddleware, (req, res) => {
  *       200:
  *         description: Dữ liệu biểu đồ đường
  */
-router.post('/line', authMiddleware, (req, res) => {
-  const { range } = req.body;
-  let data = [];
-  if (range === 'week') {
-    data = Array.from({ length: 7 }, () => Math.floor(Math.random() * 900) + 100);
-  } else if (range === 'month') {
-    data = Array.from({ length: 30 }, () => Math.floor(Math.random() * 900) + 100);
-  } else {
-    data = Array.from({ length: 12 }, () => Math.floor(Math.random() * 900) + 100);
-  }
-  res.json({ code: 200, success: true, result: data, message: 'ok' });
-});
+
+
+router.post('/line', authMiddleware, homeController.line);
 
 module.exports = router;

@@ -1,13 +1,24 @@
 const db = require('./db');
 
+const parseRoles = (rawRoles) => {
+  if (!rawRoles) return ['user'];
+  // If already an array, return it
+  if (Array.isArray(rawRoles)) return rawRoles;
+  // If string, try to parse as JSON
+  if (typeof rawRoles === 'string') {
+    try {
+      return JSON.parse(rawRoles);
+    } catch (e) {
+      return [String(rawRoles)];
+    }
+  }
+  return ['user'];
+};
+
 const findByEmail = async (email) => {
   const [rows] = await db.execute('SELECT * FROM users WHERE email = ?', [email]);
   if (rows[0]) {
-    try {
-      rows[0].roles = rows[0].roles ? JSON.parse(rows[0].roles) : ['user'];
-    } catch (e) {
-      rows[0].roles = ['user'];
-    }
+    rows[0].roles = parseRoles(rows[0].roles);
   }
   return rows[0] || null;
 };
@@ -15,11 +26,7 @@ const findByEmail = async (email) => {
 const findByUsername = async (username) => {
   const [rows] = await db.execute('SELECT * FROM users WHERE username = ?', [username]);
   if (rows[0]) {
-    try {
-      rows[0].roles = rows[0].roles ? JSON.parse(rows[0].roles) : ['user'];
-    } catch (e) {
-      rows[0].roles = ['user'];
-    }
+    rows[0].roles = parseRoles(rows[0].roles);
   }
   return rows[0] || null;
 };
@@ -27,11 +34,7 @@ const findByUsername = async (username) => {
 const findById = async (id) => {
   const [rows] = await db.execute('SELECT * FROM users WHERE id = ?', [id]);
   if (rows[0]) {
-    try {
-      rows[0].roles = rows[0].roles ? JSON.parse(rows[0].roles) : ['user'];
-    } catch (e) {
-      rows[0].roles = ['user'];
-    }
+    rows[0].roles = parseRoles(rows[0].roles);
   }
   return rows[0] || null;
 };
@@ -53,17 +56,10 @@ const updateUser = async (id, username, email, phone, avatar, roles, description
 const getAllUsers = async () => {
   const [rows] = await db.execute('SELECT id, username, email, phone, avatar, roles, description, created_at FROM users ORDER BY created_at DESC');
   return rows.map(row => {
-    try {
-      return {
-        ...row,
-        roles: row.roles ? JSON.parse(row.roles) : ['user']
-      };
-    } catch (e) {
-      return {
-        ...row,
-        roles: ['user']
-      };
-    }
+    return {
+      ...row,
+      roles: parseRoles(row.roles)
+    };
   });
 };
 

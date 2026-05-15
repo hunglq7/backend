@@ -31,10 +31,23 @@ const deleteCategory = async (id) => {
   return result;
 };
 
+const deleteMultiple = async (ids) => {
+  if (!Array.isArray(ids) || ids.length === 0) {
+    return;
+  }
+  const placeholders = ids.map(() => '?').join(', ');
+  return db.execute(
+    `DELETE FROM danh_muc_camera WHERE id IN (${placeholders})`,
+    ids,
+  );
+};
+
+
 module.exports = {
   getAllCategories,
   getCategoryById,
   createCategory,
   updateCategory,
   deleteCategory,
+  deleteMultiple
 };

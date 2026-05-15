@@ -132,6 +132,30 @@ router.put('/:id', authenticate, danhMucCameraController.updateCategory);
  *         description: Unauthorized
  */
 router.delete('/:id', authenticate, danhMucCameraController.deleteCategory);
+/**
+ * @swagger
+ * /api/danh-muc-camera:
+ *   delete:
+ *     tags: [Danh mục camera]
+ *     summary: Xóa nhiều danh mục camera
+ *     security: [{ bearerAuth: [] }]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description:  danh mục camera
+ *     responses:
+ *       200:
+ *         description: Danh mục camera đã được xóa
+ *       404:
+ *         description: Danh mục không tồn tại
+ *       401:
+ *         description: Unauthorized
+ */
+
+router.delete('/', authenticate, danhMucCameraController.deleteMultiple);
 
 module.exports = router;
 

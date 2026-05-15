@@ -79,6 +79,7 @@ module.exports = {
   createCamera,
   updateCamera,
   updateCameraStatus,
+  updateCameraStatusesByIpList,
   deleteCamera,
   deleteCameras,
 };

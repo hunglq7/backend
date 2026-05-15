@@ -3,10 +3,7 @@ const danhMucCameraModel = require('../models/danhMucCameraModel');
 const getAllCategories = async (req, res, next) => {
   try {
     const categories = await danhMucCameraModel.getAllCategories();
-    res.json({
-      success: true,
-      data: categories,
-    });
+    res.json(categories);
   } catch (error) {
     next(error);
   }
@@ -24,10 +21,7 @@ const getCategoryById = async (req, res, next) => {
       });
     }
 
-    res.json({
-      success: true,
-      data: category,
-    });
+    res.json(category);
   } catch (error) {
     next(error);
   }
@@ -123,10 +117,26 @@ const deleteCategory = async (req, res, next) => {
   }
 };
 
+const deleteMultiple = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ error: 'ids array is required' });
+    }
+    await danhMucCameraModel.deleteMultiple(ids);
+    res.json({ message: 'Deleted multiple successfully' });
+  } catch (error) {
+    console.error('Error deleting multiple danh muc cameras:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
 module.exports = {
   getAllCategories,
   getCategoryById,
   createCategory,
   updateCategory,
   deleteCategory,
+  deleteMultiple,
 };
+

@@ -42,6 +42,25 @@ const updateCameraStatus = async (id, is_online, last_check) => {
   );
 };
 
+const updateCameraStatusesByIpList = async (onlineIps, last_check) => {
+  const normalizedIps = onlineIps.map((ip) => ip.trim().toLowerCase()).filter(Boolean);
+  if (normalizedIps.length === 0) {
+    return db.execute(
+      'UPDATE cameras SET is_online = ?, last_check = ?',
+      [false, last_check],
+    );
+  }
+
+  const placeholders = normalizedIps.map(() => '?').join(',');
+  const onlineQuery = `UPDATE cameras SET is_online = ?, last_check = ? WHERE LOWER(TRIM(ip_address)) IN (${placeholders})`;
+  const offlineQuery = `UPDATE cameras SET is_online = ?, last_check = ? WHERE LOWER(TRIM(ip_address)) NOT IN (${placeholders})`;
+
+  return Promise.all([
+    db.execute(onlineQuery, [true, last_check, ...normalizedIps]),
+    db.execute(offlineQuery, [false, last_check, ...normalizedIps]),
+  ]);
+};
+
 const deleteCamera = async (id) => {
   return db.execute('DELETE FROM cameras WHERE id = ?', [id]);
 };

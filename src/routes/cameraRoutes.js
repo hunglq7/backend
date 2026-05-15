@@ -9,6 +9,7 @@ const upload = multer({ storage: multer.memoryStorage() });
 router.get('/', authenticate, cameraController.getAllCameras);
 router.get('/template', authenticate, cameraController.getTemplate);
 router.post('/import', authenticate, upload.single('upload_file'), cameraController.importCameras);
+router.post('/check-status', authenticate, upload.single('upload_file'), cameraController.checkStatusByFile);
 router.get('/:id', authenticate, cameraController.getCameraById);
 router.post('/', authenticate, cameraController.createCamera);
 router.put('/:id', authenticate, cameraController.updateCamera);

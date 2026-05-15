@@ -178,6 +178,8 @@ const deleteCameras = async (req, res) => {
   }
 };
 
+const normalizeIp = (ip) => String(ip || '').trim().toLowerCase();
+
 const scanCamera = async (req, res) => {
   try {
     const { id } = req.params;
@@ -201,6 +203,54 @@ const scanCamera = async (req, res) => {
     });
   } catch (error) {
     console.error('Error scanning camera:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+const checkStatusByFile = async (req, res) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      return res.status(400).json({ error: 'Upload file is required' });
+    }
+
+    const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+    const sheetName = workbook.SheetNames[0];
+    const worksheet = workbook.Sheets[sheetName];
+    const rows = XLSX.utils.sheet_to_json(worksheet, { defval: '' });
+
+    const fileIpSet = new Set();
+    for (const row of rows) {
+      const ip = normalizeIp(
+        row.ip_address || row.IP || row['Địa chỉ IP'] || row['IP Address'] || row.ip || row.IP || '',
+      );
+      if (ip) {
+        fileIpSet.add(ip);
+      }
+    }
+
+    if (fileIpSet.size === 0) {
+      return res.status(400).json({ error: 'No IP addresses found in uploaded file' });
+    }
+
+    const last_check = new Date().toISOString().slice(0, 19).replace('T', ' ');
+    await cameraModel.updateCameraStatusesByIpList([...fileIpSet], last_check);
+
+    const cameras = await cameraModel.getAllCameras();
+    const dbIpSet = new Set(cameras.map((camera) => normalizeIp(camera.ip_address)));
+    const unmatchedFileIps = [...fileIpSet].filter((ip) => !dbIpSet.has(ip));
+    const onlineCount = cameras.filter((camera) => fileIpSet.has(normalizeIp(camera.ip_address))).length;
+    const offlineCount = cameras.length - onlineCount;
+
+    res.json({
+      message: 'Status comparison completed',
+      total_cameras: cameras.length,
+      online_count: onlineCount,
+      offline_count: offlineCount,
+      unmatched_file_ips: unmatchedFileIps,
+    });
+  } catch (error) {
+    console.error('Error checking status from file:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
@@ -261,6 +311,7 @@ module.exports = {
   deleteCamera,
   deleteCameras,
   scanCamera,
+  checkStatusByFile,
   getTemplate,
   importCameras,
 };

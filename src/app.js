@@ -19,7 +19,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 const app = express();
 
-const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:4002,http://192.168.0.110:3333,http://localhost:3334,http://192.168.0.110:3334,http://localhost:3335,http://192.168.0.110:3335,http://localhost:3336,http://192.168.0.110:3336,http://localhost:3337,http://192.168.0.110:3337')
+const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:4002,http://192.168.10.8:3333,http://localhost:3334,http://192.168.10.8:3334,http://localhost:3335,http://192.168.10.8:3335,http://localhost:3336,http://192.168.10.8:3336,http://localhost:3337,http://192.168.10.8:3337')
   .split(',')
   .map(origin => origin.trim())
   .filter(Boolean);

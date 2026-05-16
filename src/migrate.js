@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const {
-  DB_HOST = '192.168.0.110',
+  DB_HOST = '192.168.10.8',
   DB_PORT = '3306',
   DB_USER = 'root',
   DB_PASSWORD = 'LeHung@79',

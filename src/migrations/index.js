@@ -9,7 +9,7 @@ const createCamerasTable = require('./008-create-cameras-table');
 const addDescriptionToUsers = require('./009-add-description-to-users');
 const createDanhMucChucVuTable = require('./010-create-danh-muc-chuc-vu-table');
 const createThietBiTable = require('./011-create-thiet-bi-table');
-
+const createKhuVucTable = require('./012-create-khu-vuc-table');
 module.exports = [createUsersTable,
      createCameraCategoryTable,
       updateUsersTable, 
@@ -20,5 +20,6 @@ module.exports = [createUsersTable,
        createCamerasTable, 
        addDescriptionToUsers, 
        createDanhMucChucVuTable,
-       createThietBiTable
+       createThietBiTable,
+      createKhuVucTable
     ];

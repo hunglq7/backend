@@ -121,19 +121,20 @@ const createCamera = async (req, res) => {
 const updateCamera = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, ip_address, location, is_online, last_check } = req.body;
+    const { name, ip_address, location, is_online } = req.body;
     const camera = await cameraModel.findById(id);
     if (!camera) {
       return res.status(404).json({ error: 'Camera not found' });
     }
 
+    // Note: last_check should only be updated by the system during camera scans, not by user edits
     await cameraModel.updateCamera(
       id,
       name ?? camera.name,
       ip_address ?? camera.ip_address,
       location ?? camera.location,
       typeof is_online === 'boolean' ? is_online : camera.is_online,
-      last_check ?? camera.last_check,
+      camera.last_check, // Always preserve existing last_check value
     );
 
     res.json({
@@ -142,7 +143,7 @@ const updateCamera = async (req, res) => {
       ip_address: ip_address ?? camera.ip_address,
       location: location ?? camera.location,
       is_online: typeof is_online === 'boolean' ? is_online : camera.is_online,
-      last_check: last_check ?? camera.last_check,
+      last_check: camera.last_check,
     });
   } catch (error) {
     console.error('Error updating camera:', error);

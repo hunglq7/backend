@@ -1,14 +1,14 @@
-const mysql = require('mysql2/promise');
-const dotenv = require('dotenv');
+const mysql = require("mysql2/promise");
+const dotenv = require("dotenv");
 
 dotenv.config();
 
 const {
-  DB_HOST = '192.168.10.8',
-  DB_PORT = '3306',
-  DB_USER = 'root',
-  DB_PASSWORD = 'LeHung@79',
-  DB_NAME = 'camera_app',
+  DB_HOST = "127.0.0.1",
+  DB_PORT = "3306",
+  DB_USER = "root",
+  DB_PASSWORD = "LeHung@79",
+  DB_NAME = "camera_app",
 } = process.env;
 
 const ensureDatabaseExists = async () => {
@@ -21,11 +21,13 @@ const ensureDatabaseExists = async () => {
     connectionLimit: 1,
   });
 
-  await pool.query(`CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`);
+  await pool.query(
+    `CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci`,
+  );
   await pool.end();
 };
 
-const MIGRATION_TABLE = 'migrations';
+const MIGRATION_TABLE = "migrations";
 
 const ensureMigrationTable = async (db) => {
   await db.execute(`
@@ -43,25 +45,27 @@ const getAppliedMigrations = async (db) => {
 };
 
 const recordMigration = async (db, migration) => {
-  await db.execute(
-    `INSERT INTO ${MIGRATION_TABLE} (id, name) VALUES (?, ?)`,
-    [migration.id, migration.name]
-  );
+  await db.execute(`INSERT INTO ${MIGRATION_TABLE} (id, name) VALUES (?, ?)`, [
+    migration.id,
+    migration.name,
+  ]);
 };
 
 const runMigrations = async () => {
   await ensureDatabaseExists();
 
-  const db = require('./models/db');
-  const migrations = require('./migrations');
+  const db = require("./models/db");
+  const migrations = require("./migrations");
 
   await ensureMigrationTable(db);
   const appliedMigrations = await getAppliedMigrations(db);
 
-  const pending = migrations.filter((migration) => !appliedMigrations.includes(migration.id));
+  const pending = migrations.filter(
+    (migration) => !appliedMigrations.includes(migration.id),
+  );
 
   if (pending.length === 0) {
-    console.log('No pending migrations.');
+    console.log("No pending migrations.");
     return;
   }
 
@@ -76,11 +80,11 @@ const runMigrations = async () => {
 if (require.main === module) {
   runMigrations()
     .then(() => {
-      console.log('Migrations completed.');
+      console.log("Migrations completed.");
       process.exit(0);
     })
     .catch((error) => {
-      console.error('Migration failed:', error);
+      console.error("Migration failed:", error);
       process.exit(1);
     });
 }

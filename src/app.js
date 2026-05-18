@@ -10,6 +10,8 @@ const danhMucChucVuRoutes = require("./routes/danhMucChucVuRoutes");
 const viTriLapDatRoutes = require("./routes/viTriLapDatRoutes");
 const thietBiRoutes = require("./routes/thietBiRoutes");
 const khuVucRoutes = require("./routes/khuvucRouter");
+const loaiThietBiRoutes=require("./routes/loaiThietBiRouter")
+const phieuNhapRoutes = require("./routes/phieuNhapRoutes");
 const userRoutes = require("./routes/userRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
@@ -22,7 +24,7 @@ const app = express();
 
 const allowedOrigins = (
   process.env.CORS_ORIGIN ||
-  "http://localhost:4002,http://192.168.0.110:3333"
+  "http://localhost:4003,http://192.168.10.8:3333"
 )
   .split(",")
   .map((origin) => origin.trim())
@@ -53,6 +55,8 @@ app.use("/api/danh-muc-chuc-vu", danhMucChucVuRoutes);
 app.use("/api/vi-tri-lap-dat", viTriLapDatRoutes);
 app.use("/api/thiet-bi", thietBiRoutes);
 app.use("/api/khu-vuc", khuVucRoutes);
+app.use("/api/loai_thiet_bi",loaiThietBiRoutes);
+app.use("/api/phieu_nhap", phieuNhapRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/upload", uploadRoutes);

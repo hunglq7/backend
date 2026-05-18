@@ -10,6 +10,12 @@ const addDescriptionToUsers = require('./009-add-description-to-users');
 const createDanhMucChucVuTable = require('./010-create-danh-muc-chuc-vu-table');
 const createThietBiTable = require('./011-create-thiet-bi-table');
 const createKhuVucTable = require('./012-create-khu-vuc-table');
+const createLoaiThietBiTable=require('./013-create-loai-thiet-bi-table');
+const createPhieuNhapTable=require('./014-create-phieu-nhap-table');
+const createDonViTinhTable=require('./016-create-don-vi-tinh-table');
+const createChiTietPhieuNhapTable=require('./015-create-chi-tiet-phieu-nhap-table');
+const createPhieuXuatTable=require('./017-create-phieu-xuat-table');
+const createChiTietPhieuXuatTable=require('./018-create-chi-tiet-phieu-xuat-table');
 module.exports = [createUsersTable,
      createCameraCategoryTable,
       updateUsersTable, 
@@ -21,5 +27,11 @@ module.exports = [createUsersTable,
        addDescriptionToUsers, 
        createDanhMucChucVuTable,
        createThietBiTable,
-      createKhuVucTable
+      createKhuVucTable,
+      createLoaiThietBiTable,
+      createDonViTinhTable,
+      createPhieuNhapTable,    
+      createChiTietPhieuNhapTable,
+      createPhieuXuatTable,
+      createChiTietPhieuXuatTable
     ];

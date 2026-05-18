@@ -13,14 +13,14 @@ const getById = async (id) => {
 const create = async (ma_phieu_nhap, ngay_nhap, don_vi_id, nguoi_nhap, ghi_chu) => {
   return db.execute(
     'INSERT INTO phieu_nhap (ma_phieu_nhap, ngay_nhap, don_vi_id, nguoi_nhap, ghi_chu) VALUES (?, ?, ?, ?, ?)',
-    [ma_phieu_nhap, ngay_nhap, don_vi_id, nguoi_nhap, ghi_chu]
+    [ma_phieu_nhap??null, ngay_nhap??null, don_vi_id??null, nguoi_nhap??null, ghi_chu??null]
   );
 };
 
 const update = async (id, ma_phieu_nhap, ngay_nhap, don_vi_id, nguoi_nhap, ghi_chu) => {
   return db.execute(
     'UPDATE phieu_nhap SET ma_phieu_nhap = ?, ngay_nhap = ?, don_vi_id = ?, nguoi_nhap = ?, ghi_chu = ? WHERE id = ?',
-    [ma_phieu_nhap, ngay_nhap, don_vi_id, nguoi_nhap, ghi_chu, id]
+    [ma_phieu_nhap??null, ngay_nhap??null, don_vi_id??null, nguoi_nhap??null, ghi_chu??null, id]
   );
 };
 

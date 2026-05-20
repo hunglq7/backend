@@ -26,10 +26,21 @@ const getById = async (req, res) => {
 const create = async (req, res) => {
   try {
     const { ma_phieu_nhap, ngay_nhap, don_vi_id, nguoi_nhap, ghi_chu } = req.body;
-    if (!ma_phieu_nhap || !ngay_nhap || !don_vi_id || !nguoi_nhap) {
-      return res.status(400).json({ error: 'All fields are required' });
+    if (!ma_phieu_nhap || !ngay_nhap || !don_vi_id) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
-    await phieuNhapModel.create(ma_phieu_nhap, ngay_nhap, don_vi_id, nguoi_nhap??null, ghi_chu??null);
+    const ngayNhapDate = new Date(ngay_nhap);
+    if (Number.isNaN(ngayNhapDate.getTime())) {
+      return res.status(400).json({ error: 'Invalid ngay_nhap value' });
+    }
+    const ngayNhapFormatted = ngayNhapDate.toISOString().split("T")[0];
+    await phieuNhapModel.create(
+      ma_phieu_nhap,
+      ngayNhapFormatted,
+      don_vi_id,
+      nguoi_nhap ?? null,
+      ghi_chu ?? null,
+    );
     res.status(201).json({ message: 'Created successfully' });
   } catch (error) {
     console.error('Error creating phieu nhap:', error);
@@ -42,13 +53,15 @@ const update = async (req, res) => {
   try {
     const { id } = req.params;
     const { ma_phieu_nhap, ngay_nhap, don_vi_id, nguoi_nhap, ghi_chu } = req.body;
-    if (!ma_phieu_nhap || !ngay_nhap || !don_vi_id || !nguoi_nhap) {
-      return res.status(400).json({ error: 'All fields are required' });
+    if (!ma_phieu_nhap || !ngay_nhap || !don_vi_id) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
-    const ngayNhapFormatted = ngay_nhap
-  ? new Date(ngay_nhap).toISOString().split("T")[0]
-  : null;
-    const result = await phieuNhapModel.update(id, ma_phieu_nhap, ngayNhapFormatted, don_vi_id, nguoi_nhap, ghi_chu);
+    const ngayNhapDate = new Date(ngay_nhap);
+    if (Number.isNaN(ngayNhapDate.getTime())) {
+      return res.status(400).json({ error: 'Invalid ngay_nhap value' });
+    }
+    const ngayNhapFormatted = ngayNhapDate.toISOString().split("T")[0];
+    const result = await phieuNhapModel.update(id, ma_phieu_nhap, ngayNhapFormatted, don_vi_id, nguoi_nhap ?? null, ghi_chu ?? null);
     if (result[0].affectedRows === 0) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Updated successfully' });
   } catch (error) {

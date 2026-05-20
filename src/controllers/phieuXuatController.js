@@ -26,10 +26,22 @@ const getById = async (req, res) => {
 const create = async (req, res) => {
   try {
     const { ma_phieu_xuat, ngay_xuat, don_vi_id, vi_tri_id, nguoi_xuat, ghi_chu } = req.body;
-    if (!ma_phieu_xuat || !ngay_xuat || !don_vi_id || !vi_tri_id || !nguoi_xuat) {
-      return res.status(400).json({ error: 'All fields are required' });
+    if (!ma_phieu_xuat || !ngay_xuat || !don_vi_id || !vi_tri_id) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
-    await phieuXuatModel.create(ma_phieu_xuat, ngay_xuat, don_vi_id, vi_tri_id, nguoi_xuat??null, ghi_chu??null);
+    const ngayXuatDate = new Date(ngay_xuat);
+    if (Number.isNaN(ngayXuatDate.getTime())) {
+      return res.status(400).json({ error: 'Invalid ngay_xuat value' });
+    }
+    const ngayXuatFormatted = ngayXuatDate.toISOString().split("T")[0];
+    await phieuXuatModel.create(
+      ma_phieu_xuat,
+      ngayXuatFormatted,
+      don_vi_id,
+      nguoi_xuat ?? null,
+      vi_tri_id,
+      ghi_chu ?? null,
+    );
     res.status(201).json({ message: 'Created successfully' });
   } catch (error) {
     console.error('Error creating phieu xuat:', error);
@@ -38,17 +50,19 @@ const create = async (req, res) => {
 };
 
 const update = async (req, res) => {
-  console.log('Update request body:', req.body); // Log the request body for debugging
+
   try {
     const { id } = req.params;
     const { ma_phieu_xuat, ngay_xuat, don_vi_id, vi_tri_id, nguoi_xuat, ghi_chu } = req.body;
-    if (!ma_phieu_xuat || !ngay_xuat || !don_vi_id || !nguoi_xuat|| !vi_tri_id) {
-      return res.status(400).json({ error: 'All fields are required' });
+    if (!ma_phieu_xuat || !ngay_xuat || !don_vi_id || !vi_tri_id) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
-    const ngayXuatFormatted = ngay_xuat
-  ? new Date(ngay_xuat).toISOString().split("T")[0]
-  : null;
-    const result = await phieuXuatModel.update(id, ma_phieu_xuat, ngayXuatFormatted, don_vi_id, vi_tri_id, nguoi_xuat, ghi_chu);
+    const ngayXuatDate = new Date(ngay_xuat);
+    if (Number.isNaN(ngayXuatDate.getTime())) {
+      return res.status(400).json({ error: 'Invalid ngay_xuat value' });
+    }
+    const ngayXuatFormatted = ngayXuatDate.toISOString().split("T")[0];
+    const result = await phieuXuatModel.update(id, ma_phieu_xuat, ngayXuatFormatted, don_vi_id, nguoi_xuat ?? null, vi_tri_id ?? null, ghi_chu ?? null);
     if (result[0].affectedRows === 0) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Updated successfully' });
   } catch (error) {

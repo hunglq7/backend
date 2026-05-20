@@ -13,6 +13,7 @@ const khuVucRoutes = require("./routes/khuvucRouter");
 const loaiThietBiRoutes=require("./routes/loaiThietBiRouter")
 const phieuNhapRoutes = require("./routes/phieuNhapRoutes");
 const phieuXuatRoutes = require("./routes/phieuXuatRoutes");
+const chiTietPhieuNhapRoutes = require("./routes/chiThietPhieuNhapRoutes");
 const userRoutes = require("./routes/userRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
@@ -59,6 +60,7 @@ app.use("/api/khu-vuc", khuVucRoutes);
 app.use("/api/loai_thiet_bi",loaiThietBiRoutes);
 app.use("/api/phieu_nhap", phieuNhapRoutes);
 app.use("/api/phieu_xuat", phieuXuatRoutes);
+app.use("/api/chi_tiet_phieu_nhap", chiTietPhieuNhapRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/upload", uploadRoutes);

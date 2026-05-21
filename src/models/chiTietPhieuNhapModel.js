@@ -12,7 +12,7 @@ const getById = async (id) => {
 
 const create = async (phieu_nhap_id, thiet_bi_id, loai_thiet_bi_id, don_vi_tinh_id, so_luong, don_gia) => {
   return db.execute(
-    'INSERT INTO chi_tiet_phieu_nhap (phieu_nhap_id, thiet_bi_id, loai_thiet_bi_id, don_vi_tinh_id, so_luong, don_gia) VALUES (?, ?, ?, ?, ?, ?, ?)',
+    'INSERT INTO chi_tiet_phieu_nhap (phieu_nhap_id, thiet_bi_id, loai_thiet_bi_id, don_vi_tinh_id, so_luong, don_gia) VALUES (?, ?, ?, ?, ?, ?)',
     [phieu_nhap_id??null, thiet_bi_id??null, loai_thiet_bi_id??null, don_vi_tinh_id??null, so_luong??null, don_gia??null]
   );
 };

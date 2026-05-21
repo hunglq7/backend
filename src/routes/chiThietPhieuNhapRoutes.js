@@ -53,27 +53,33 @@ router.get('/:id', authMiddleware, chiTietPhieuNhapController.getById);
  *           schema:
  *             type: object
  *             properties:
- *               ma_phieu_nhap:
- *                 type: string
- *                 example: "PN-001"
- *               ngay_nhap:
- *                 type: string
- *                 format: date
- *                 example: "2026-05-19"
- *               don_vi_id:
- *                 type: integer
+ *               phieu_nhap_id:
+ *                 type: number
  *                 example: 1
- *               nguoi_nhap:
- *                 type: string
- *                 example: "Nguyen Van A"
+ *               thiet_bi_id:
+ *                 type: number
+ *                 example: 1
+ *               loai_thiet_bi_id:
+ *                 type: number
+ *                 example: 1
+ *               don_vi_tinh_id:
+ *                 type: number
+ *                 example: 1
+ *               so_luong:
+ *                 type: integer
+ *                 example: 10
+ *               don_gia:
+ *                 type: integer
+ *                 example: 10
  *               ghi_chu:
  *                 type: string
  *                 example: "Ghi chú"
  *             required:
- *               - ma_phieu_nhap
- *               - ngay_nhap
- *               - don_vi_id
- *               - nguoi_nhap
+ *               - phieu_nhap_id
+ *               - thiet_bi_id
+ *               - don_vi_tinh_id
+ *               - so_luong
+ *               - don_gia
  *     responses:
  *       201:
  *         description: Phiếu nhập đã được tạo
@@ -104,34 +110,39 @@ router.post('/', authMiddleware, chiTietPhieuNhapController.create);
  *           schema:
  *             type: object
  *             properties:
- *               ma_phieu_nhap:
- *                 type: string
- *                 example: "PN-001"
- *               ngay_nhap:
- *                 type: string
- *                 format: date
- *                 example: "2026-05-19"
- *               don_vi_id:
- *                 type: integer
+ *               phieu_nhap_id:
+ *                 type: number
  *                 example: 1
- *               nguoi_nhap:
- *                 type: string
- *                 example: "Nguyen Van A"
+ *               thiet_bi_id:
+ *                 type: number
+ *                 example: 1
+ *               loai_thiet_bi_id:
+ *                 type: number
+ *                 example: 1
+ *               don_vi_tinh_id:
+ *                 type: number
+ *                 example: 1
+ *               so_luong:
+ *                 type: integer
+ *                 example: 10
+ *               don_gia:
+ *                 type: integer
+ *                 example: 10
  *               ghi_chu:
  *                 type: string
  *                 example: "Ghi chú"
  *             required:
- *               - ma_phieu_nhap
- *               - ngay_nhap
- *               - don_vi_id
- *               - nguoi_nhap
+ *               - phieu_nhap_id
+ *               - thiet_bi_id
+ *               - don_vi_tinh_id
+ *               
  *     responses:
  *       200:
- *         description: Phiếu Nhập đã được cập nhật
+ *         description: Chi tiết phiếu nhập đã được cập nhật
  *       400:
  *         description: Dữ liệu không hợp lệ
  *       404:
- *         description: Phiếu Nhập không tồn tại
+ *         description: Chi tiết Phiếu Nhập không tồn tại
  *       401:
  *         description: Unauthorized
  */

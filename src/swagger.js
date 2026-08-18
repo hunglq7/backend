@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-const port = process.env.PORT || '4001';
+const port = process.env.PORT || '4003';
 
 const options = {
   definition: {

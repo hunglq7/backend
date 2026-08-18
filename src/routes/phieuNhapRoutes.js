@@ -53,11 +53,27 @@ router.get('/:id', authMiddleware, phieuNhapController.getById);
  *           schema:
  *             type: object
  *             properties:
- *               ten_loai:
+ *               ma_phieu_nhap:
  *                 type: string
- *                 example: "Camera"
+ *                 example: "PN-001"
+ *               ngay_nhap:
+ *                 type: string
+ *                 format: date
+ *                 example: "2026-05-19"
+ *               don_vi_id:
+ *                 type: integer
+ *                 example: 1
+ *               nguoi_nhap:
+ *                 type: string
+ *                 example: "Nguyen Van A"
+ *               ghi_chu:
+ *                 type: string
+ *                 example: "Ghi chú"
  *             required:
- *               - ten_loai
+ *               - ma_phieu_nhap
+ *               - ngay_nhap
+ *               - don_vi_id
+ *               - nguoi_nhap
  *     responses:
  *       201:
  *         description: Phiếu nhập đã được tạo
@@ -88,11 +104,27 @@ router.post('/', authMiddleware, phieuNhapController.create);
  *           schema:
  *             type: object
  *             properties:
- *               ten_thiet_bi:
+ *               ma_phieu_nhap:
  *                 type: string
- *                 example: "Camera"
+ *                 example: "PN-001"
+ *               ngay_nhap:
+ *                 type: string
+ *                 format: date
+ *                 example: "2026-05-19"
+ *               don_vi_id:
+ *                 type: integer
+ *                 example: 1
+ *               nguoi_nhap:
+ *                 type: string
+ *                 example: "Nguyen Van A"
+ *               ghi_chu:
+ *                 type: string
+ *                 example: "Ghi chú"
  *             required:
- *               - ten_loai
+ *               - ma_phieu_nhap
+ *               - ngay_nhap
+ *               - don_vi_id
+ *               - nguoi_nhap
  *     responses:
  *       200:
  *         description: Phiếu Nhập đã được cập nhật
@@ -111,18 +143,25 @@ router.put('/:id', authMiddleware, phieuNhapController.update);
  *     tags: [Phiếu Nhập]
  *     summary: Xóa nhiều phiếu nhập
  *     security: [{ bearerAuth: [] }]
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: integer
- *         description:  danh mục loại thiết bị
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 example: [1, 2, 3]
+ *             required:
+ *               - ids
  *     responses:
  *       200:
- *         description: Danh mục loại thiết bị đã được xóa
- *       404:
- *         description: Danh mục không tồn tại
+ *         description: Phiếu nhập đã được xóa
+ *       400:
+ *         description: Dữ liệu không hợp lệ
  *       401:
  *         description: Unauthorized
  */

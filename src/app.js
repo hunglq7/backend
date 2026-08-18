@@ -15,6 +15,7 @@ const phieuNhapRoutes = require("./routes/phieuNhapRoutes");
 const userRoutes = require("./routes/userRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
+const danhMucCapDienThoais=require("./routes/danhMucCapDienThoaiRouter")
 const errorHandler = require("./middleware/errorHandler");
 const setupSwagger = require("./swagger");
 const dotenv = require("dotenv");
@@ -24,7 +25,7 @@ const app = express();
 
 const allowedOrigins = (
   process.env.CORS_ORIGIN ||
-  "http://localhost:4002,http://192.168.0.110:3333"
+  "http://localhost:4002,http://192.168.0.100:3333"
 )
   .split(",")
   .map((origin) => origin.trim())
@@ -49,6 +50,7 @@ setupSwagger(app);
 app.use("/api/auth", authRoutes);
 app.use("/api", protectedRoutes);
 app.use("/api/danh-muc-camera", danhMucCameraRoutes);
+app.use("/api/danhMucCapDienThoai",danhMucCapDienThoais);
 app.use("/cameras", cameraRoutes);
 app.use("/api/danh-muc-don-vi", danhMucDonViRoutes);
 app.use("/api/danh-muc-chuc-vu", danhMucChucVuRoutes);

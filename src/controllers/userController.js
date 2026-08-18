@@ -45,8 +45,10 @@ const getUserById = async (req, res) => {
 };
 
 const createUser = async (req, res) => {
+
   try {
     const { username, email, password, phone, avatar, roles } = req.body;
+    console.log(username)
     if (!username || !email || !password) {
       return res.status(400).json({ error: 'Username, email and password are required' });
     }

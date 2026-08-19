@@ -47,12 +47,19 @@ router.post('/', authenticate, danhMucCapDienThoaiController.add);
 
 /**
  * @swagger
- * /api/danhMucCapDienThoai:
- *   post:
- *     summary: Update danh mục mới
+ * /api/danhMucCapDienThoai/{id}:
+ *   put:
+ *     summary: Cập nhật danh mục cáp điện thoại
  *     tags: [danhMucCapDienThoai]
  *     security:
  *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID của danh mục cáp điện thoại cần cập nhật
  *     requestBody:
  *       required: true
  *       content:
@@ -64,17 +71,43 @@ router.post('/', authenticate, danhMucCapDienThoaiController.add);
  *             properties:
  *               tenCap:
  *                 type: string
- *                 description: Tên thiết bị
+ *                 description: Tên cáp điện thoại
  *               mo_ta:
  *                 type: string
- *                 description: Mô tả thiết bị
+ *                 description: Mô tả tên cáp
  *     responses:
- *       201:
- *         description: thiết bị đã được tạo
+ *       200:
+ *         description: Cáp đã được cập nhật
  *       400:
  *         description: Dữ liệu không hợp lệ
+ *       404:
+ *         description: Không tìm thấy dữ liệu
  *       500:
  *         description: Lỗi server
  */
-router.post('/', authenticate, danhMucCapDienThoaiController.update);
+router.put('/:id', authenticate, danhMucCapDienThoaiController.update);
+/**
+ * @swagger
+ * /api/danhMucCapDienThoai/{id}:
+ *   delete:
+ *     summary: Xóa danh mục cáp điện thoại
+ *     tags: [DanhMucCapDienThoai]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *         description: ID 
+ *     responses:
+ *       200:
+ *         description: Bản ghi đã được xóa
+ *       404:
+ *         description: Không tìm thấy bản ghi nào
+ *       500:
+ *         description: Lỗi server
+ */
+router.delete('/:id', authenticate, danhMucCapDienThoaiController.deleteById);
 module.exports = router;

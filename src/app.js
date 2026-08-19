@@ -27,11 +27,7 @@ const app = express();
 
 const allowedOrigins = (
   process.env.CORS_ORIGIN ||
-<<<<<<< HEAD
-  "http://localhost:4002,http://192.168.0.100:3333"
-=======
   "http://localhost:4003,http://127.0.0.1:4003,http://192.168.10.8:3333"
->>>>>>> 0296bf317efae52c9f11075af3daeca87f9bf345
 )
   .split(",")
   .map((origin) => origin.trim())

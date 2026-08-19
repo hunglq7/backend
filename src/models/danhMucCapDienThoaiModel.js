@@ -17,9 +17,13 @@ const update = async (id, tenCap) => {
   );
   return result;
 };
+const deleteById=async(id)=>{
+    return db.execute('DELETE FROM danhMucCapDienThoai WHERE id = ?', [id]);
+}
 
 module.exports = {
   getAll,
   add,
-  update
+  update,
+  deleteById,
 };

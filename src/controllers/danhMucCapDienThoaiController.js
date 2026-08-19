@@ -49,10 +49,24 @@ const update = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await danhMuccapDienThoaiModel.deleteById(id);
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: 'danh mục not found' });
+    }
+    res.json({ message: 'danh mục deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting danh mục:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 module.exports = {
   getAll,
   add,
-  update
+  update,
+  deleteById
 };
 

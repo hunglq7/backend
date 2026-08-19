@@ -17,6 +17,7 @@ const createChiTietPhieuNhapTable=require('./015-create-chi-tiet-phieu-nhap-tabl
 const createPhieuXuatTable=require('./017-create-phieu-xuat-table');
 const createChiTietPhieuXuatTable=require('./018-create-chi-tiet-phieu-xuat-table');
 const createDanhMucCapDienThoaiTable=require('./019-create-danh-muc-cap-table');
+const createTonghopThietbiThongtinTable=require('./020-create-tonghop-thietbi-thongtin-table')
 module.exports = [createUsersTable,
      createCameraCategoryTable,
       updateUsersTable, 
@@ -35,5 +36,6 @@ module.exports = [createUsersTable,
       createChiTietPhieuNhapTable,
       createPhieuXuatTable,
       createChiTietPhieuXuatTable,
-      createDanhMucCapDienThoaiTable
+      createDanhMucCapDienThoaiTable,
+      createTonghopThietbiThongtinTable
     ];

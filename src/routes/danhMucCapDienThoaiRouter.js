@@ -110,4 +110,35 @@ router.put('/:id', authenticate, danhMucCapDienThoaiController.update);
  *         description: Lỗi server
  */
 router.delete('/:id', authenticate, danhMucCapDienThoaiController.deleteById);
+/**
+ * @swagger
+ * /api/danhMucCapDienThoai:
+ *   delete:
+ *     summary: Xóa nhiều danh mục cáp điện thoại
+ *     tags: [DanhMucCapDienThoai]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - ids
+ *             properties:
+ *               ids:
+ *                 type: array
+ *                 items:
+ *                   type: integer
+ *                 description: Danh sách ID 
+ *     responses:
+ *       200:
+ *         description: Xóa thành công
+ *       400:
+ *         description: Dữ liệu không hợp lệ
+ *       500:
+ *         description: Lỗi server
+ */
+router.delete('/', authenticate, danhMucCapDienThoaiController.deleteMultiple);
 module.exports = router;

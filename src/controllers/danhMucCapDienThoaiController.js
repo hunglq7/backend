@@ -63,10 +63,28 @@ const deleteById = async (req, res) => {
   }
 };
 
+const deleteMultiple = async (req, res) => {
+  try {
+    const { ids } = req.body;
+    console.log('Received ids for deletion:', ids);
+    if (!Array.isArray(ids) || ids.length === 0) {
+      return res.status(400).json({ error: 'ids array is required' });
+    }
+    for (const id of ids) {
+      await danhMuccapDienThoaiModel.deleteById(id);
+    }
+    res.json({ message: 'deleteMutiple successfully' });
+  } catch (error) {
+    console.error('Error deleting multiple danhMucCapDienThoai:', error);
+    res.status(500).json({ error: 'Lỗi kết nối tới server' });
+  }
+};
+
 module.exports = {
   getAll,
   add,
   update,
-  deleteById
+  deleteById,
+  deleteMultiple
 };
 

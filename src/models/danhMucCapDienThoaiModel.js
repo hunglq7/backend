@@ -20,10 +20,17 @@ const update = async (id, tenCap) => {
 const deleteById=async(id)=>{
     return db.execute('DELETE FROM danhMucCapDienThoai WHERE id = ?', [id]);
 }
-
+const deleteMultiple=async(ids)=>{
+    if (!Array.isArray(ids) || ids.length === 0) {
+        return;
+    }
+    const placeholders = ids.map(() => '?').join(', ');
+    return db.execute(`DELETE FROM danhMucCapDienThoai WHERE id IN (${placeholders})`, ids);
+}
 module.exports = {
   getAll,
   add,
   update,
   deleteById,
+  deleteMultiple
 };

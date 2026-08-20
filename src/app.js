@@ -18,6 +18,7 @@ const userRoutes = require("./routes/userRoutes");
 const homeRoutes = require("./routes/homeRoutes");
 const uploadRoutes = require("./routes/uploadRoutes");
 const danhMucCapDienThoais=require("./routes/danhMucCapDienThoaiRouter")
+const tongHopHeThongThongTinRoutes=require("./routes/tongHopHeThongThongTinRouters")
 const errorHandler = require("./middleware/errorHandler");
 const setupSwagger = require("./swagger");
 const dotenv = require("dotenv");
@@ -27,7 +28,7 @@ const app = express();
 
 const allowedOrigins = (
   process.env.CORS_ORIGIN ||
-  "http://localhost:3333,http://127.0.0.1:4003,http://192.168.0.109:3333"
+  "http://localhost:4003,http://localhost:3333,http://127.0.0.1:4003,http://192.168.0.109:3333"
 )
   .split(",")
   .map((origin) => origin.trim())
@@ -63,6 +64,7 @@ app.use("/api/loai_thiet_bi",loaiThietBiRoutes);
 app.use("/api/phieu_nhap", phieuNhapRoutes);
 app.use("/api/phieu_xuat", phieuXuatRoutes);
 app.use("/api/chi_tiet_phieu_nhap", chiTietPhieuNhapRoutes);
+app.use("/api/tonghop_hethong_thongtin", tongHopHeThongThongTinRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/home", homeRoutes);
 app.use("/upload", uploadRoutes);

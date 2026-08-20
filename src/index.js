@@ -3,7 +3,7 @@ const dotenv = require('dotenv');
 const runMigrations = require('./migrate');
 
 dotenv.config();
-const PORT = process.env.PORT || 4003;
+const PORT = process.env.PORT || 4002;
 const start = async () => {
   await runMigrations();
 

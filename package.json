@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
+    "swagger": "node generate-swagger.js",
     "build": "echo \"Backend does not require a build step; run npm start or npm run dev\"",
     "migrate": "node migrate.js",
     "postinstall": "node fix-xlsx-tsconfig.js"
@@ -27,7 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.1.1",
     "mysql2": "^3.6.0",
-    "swagger-jsdoc": "^6.2.8",
+    "swagger-autogen": "^2.23.7",
     "swagger-ui-express": "^4.6.3",
     "xlsx": "^0.18.5"
   },

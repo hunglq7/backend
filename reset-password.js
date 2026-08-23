@@ -1,6 +1,6 @@
 require('dotenv').config();
 const bcrypt = require('bcryptjs');
-const db = require('./src/models/db');
+const db = require('./src/libs/db');
 
 (async () => {
   try {

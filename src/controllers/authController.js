@@ -1,7 +1,7 @@
 const bcrypt = require('bcryptjs');
 const userModel = require('../models/userModel');
 const jwtUtils = require('../utils/jwt');
-const db = require('../models/db');
+const db = require('../libs/db');
 
 const register = async (req, res, next) => {
   try {

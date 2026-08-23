@@ -5,8 +5,8 @@ const getAll = async (req, res) => {
     const danhMucDonVi = await danhMucDonViModel.getAll();
     res.json(danhMucDonVi);
   } catch (error) {
-    console.error('Error fetching danh muc don vi:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi gọi API lấy tất cả danh mục đơn vị:', error);
+    res.status(500).json({ error: 'Lỗi kết nối hệ thống' });
   }
 };
 
@@ -19,8 +19,8 @@ const getById = async (req, res) => {
     }
     res.json(danhMucDonVi);
   } catch (error) {
-    console.error('Error fetching danh muc don vi by id:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi gọi API lấy danh mục đơn vị theo id:', error);
+    res.status(500).json({ error: 'Lỗi kết nối hệ thống' });
   }
 };
 
@@ -33,8 +33,8 @@ const create = async (req, res) => {
     await danhMucDonViModel.create(ten_don_vi);
     res.status(201).json({ message: 'Danh muc don vi created successfully' });
   } catch (error) {
-    console.error('Error creating danh muc don vi:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi gọi API create danh mục đơn vị:', error);
+    res.status(500).json({ error: 'Lỗi kết nối hệ thống' });
   }
 };
 
@@ -51,8 +51,8 @@ const update = async (req, res) => {
     }
     res.json({ message: 'Danh muc don vi updated successfully' });
   } catch (error) {
-    console.error('Error updating danh muc don vi:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi gọi API cập nhật danh mục đơn vị:', error);
+    res.status(500).json({ error: 'Lỗi kết nối hệ thống' });
   }
 };
 
@@ -65,8 +65,8 @@ const deleteById = async (req, res) => {
     }
     res.json({ message: 'Danh muc don vi deleted successfully' });
   } catch (error) {
-    console.error('Error deleting danh muc don vi:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi gọi API xóa danh mục đơn vị:', error);
+    res.status(500).json({ error: 'Lỗi kết nối hệ thống' });
   }
 };
 
@@ -81,8 +81,8 @@ const deleteMultiple = async (req, res) => {
     }
     res.json({ message: 'Danh muc don vi deleted successfully' });
   } catch (error) {
-    console.error('Error deleting multiple danh muc don vi:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi gọi API xóa nhiều danh mục đơn vị:', error);
+    res.status(500).json({ error: 'Lỗi kết nối hệ thống' });
   }
 };
 

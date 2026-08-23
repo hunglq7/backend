@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../libs/db');
 
 const getAll = async () => {
   const [rows] = await db.execute('SELECT a.id,a.ma_phieu_nhap,a.ngay_nhap,a.don_vi_id,b.ten_don_vi,a.nguoi_nhap,a.ngay_nhap,a.ghi_chu FROM camera_app.phieu_nhap a inner join camera_app.danh_muc_don_vi b on a.don_vi_id=b.id ORDER BY a.created_at ASC');

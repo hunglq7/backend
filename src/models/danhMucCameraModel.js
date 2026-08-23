@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../libs/db');
 
 const getAllCategories = async () => {
   const [rows] = await db.execute('SELECT * FROM danh_muc_camera ORDER BY created_at DESC');

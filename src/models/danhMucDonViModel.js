@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../libs/db');
 
 const getAll = async () => {
   const [rows] = await db.execute('SELECT * FROM danh_muc_don_vi ORDER BY created_at DESC');

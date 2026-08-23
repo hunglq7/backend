@@ -54,7 +54,7 @@ const recordMigration = async (db, migration) => {
 const runMigrations = async () => {
   await ensureDatabaseExists();
 
-  const db = require("./models/db");
+  const db = require("./libs/db");
   const migrations = require("./migrations");
 
   await ensureMigrationTable(db);

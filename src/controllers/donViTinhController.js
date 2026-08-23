@@ -5,8 +5,8 @@ const getAll = async (req, res) => {
         const donViTinhs = await donViTinhModel.getAll();
         res.json(donViTinhs);
     } catch (error) {
-        console.error('Error fetching don vi tinhs:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Lỗi khi gọi API getALL:', error);
+        res.status(500).json({ error: 'Lỗi hệ thống' });
     }
 };
 
@@ -19,8 +19,8 @@ const getById = async (req, res) => {
         }
         res.json(donViTinh);
     } catch (error) {
-        console.error('Error fetching don vi tinh by id:', error);
-        res.status(500).json({ error: 'Internal server error' });
+        console.error('Lỗi khi gọi API getById:', error);
+        res.status(500).json({ error: 'Lỗi hệ thống' });
     }
 };
 const create = async (req, res) => {
@@ -30,8 +30,8 @@ const create = async (req, res) => {
     await donViTinhModel.create(ten_don_vi_tinh);
     res.status(200).json({ message: 'Created successfully' });
   } catch (error) {
-    console.error('Error creating don vi tinh:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi khi gọi API create:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống' });
   }
 };
 
@@ -44,8 +44,8 @@ const update = async (req, res) => {
     if (result[0].affectedRows === 0) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Updated successfully' });
   } catch (error) {
-    console.error('Error updating don vi tinh:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi khi gọi API update:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống' });
   }
 };
 
@@ -56,8 +56,8 @@ const deleteById = async (req, res) => {
     if (result[0].affectedRows === 0) return res.status(404).json({ error: 'Not found' });
     res.json({ message: 'Deleted successfully' });
   } catch (error) {
-    console.error('Error deleting don vi tinh:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi khi gọi API deleteById:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống' });
   }
 };
 
@@ -70,8 +70,8 @@ const deleteMultiple = async (req, res) => {
     await donViTinhModel.deleteMultiple(ids);
     res.json({ message: 'Deleted multiple successfully' });
   } catch (error) {
-    console.error('Error deleting multiple don vi tinhs:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi khi gọi API deleteMultiple:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống' });
   }
 };
 

@@ -1,4 +1,4 @@
-const db = require('./db');
+const db = require('../libs/db');
 
 const parseRoles = (rawRoles) => {
   if (!rawRoles) return ['user'];

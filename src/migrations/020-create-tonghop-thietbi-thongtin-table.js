@@ -13,7 +13,7 @@ module.exports = {
         so_luong INT NOT NULL,
         loai_thiet_bi_id INT NOT NULL,    
         ngay_lap DATETIME,
-        tinh_trang BOOL,
+        tinh_trang BOOLEAN,
         ghi_chu varchar(100),   
       
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

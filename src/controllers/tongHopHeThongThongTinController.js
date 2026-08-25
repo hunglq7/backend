@@ -1,49 +1,50 @@
 const tongHopHeThongThongTinModel = require('../models/tongHopHeThongThongTinModel');
 const getAll = async (req, res) => {
-    try {
-        const tongHopHeThongThongTins = await tongHopHeThongThongTinModel.getAll();
-        res.json(tongHopHeThongThongTins);
-    } catch (error) {
-        console.error('Không lấy được danh sách thiết bị:', error);
-        res.status(500).json({ error: 'Lỗi kết nối server' });
-    }
+  try {
+    const tongHopHeThongThongTins = await tongHopHeThongThongTinModel.getAll();
+    res.json(tongHopHeThongThongTins);
+  } catch (error) {
+    console.error('Không lấy được danh sách thiết bị:', error);
+    res.status(500).json({ error: 'Lỗi kết nối server' });
+  }
 };
 const getById = async (req, res) => {
-    try {
-        const { id } = req.params;
-        const tongHopHeThongThongTin = await tongHopHeThongThongTinModel.getById(id);
-        if (!tongHopHeThongThongTin) {
-            return res.status(404).json({ error: 'Tổng hợp hệ thống thông tin not found' });
-        }
-        res.json(tongHopHeThongThongTin);
-    } catch (error) {
-        console.error('Error fetching tổng hợp hệ thống thông tin by id:', error);
-        res.status(500).json({ error: 'Lỗi kết nối server' });
+  try {
+    const { id } = req.params;
+    const tongHopHeThongThongTin = await tongHopHeThongThongTinModel.getById(id);
+    if (!tongHopHeThongThongTin) {
+      return res.status(404).json({ error: 'Tổng hợp hệ thống thông tin not found' });
     }
+    res.json(tongHopHeThongThongTin);
+  } catch (error) {
+    console.error('Error fetching tổng hợp hệ thống thông tin by id:', error);
+    res.status(500).json({ error: 'Lỗi kết nối server' });
+  }
 };
 
 const create = async (req, res) => {
   try {
-    const { thiet_bi_id,don_vi_id,vi_tri_id,khu_vuc_id,don_vi_tinh_id, so_luong,loai_thiet_bi_id, ngay_lap,tinh_trang,ghi_chu } = req.body;
-    if (!thiet_bi_id || !don_vi_id || !vi_tri_id || !khu_vuc_id || !don_vi_tinh_id || so_luong === undefined || loai_thiet_bi_id === undefined) {
+    const { thiet_bi_id, don_vi_id, vi_tri_id, khu_vuc_id, don_vi_tinh_id, so_luong, loai_thiet_bi_id, ngay_lap, tinh_trang, ghi_chu } = req.body;
+    const requiredIds = [thiet_bi_id, don_vi_id, vi_tri_id, khu_vuc_id, don_vi_tinh_id, loai_thiet_bi_id];
+    if (requiredIds.some(value => !Number.isInteger(Number(value)) || Number(value) <= 0) || !Number.isInteger(Number(so_luong)) || Number(so_luong) < 0) {
       return res.status(400).json({ error: 'Missing required fields' });
-    }   
+    }
     await tongHopHeThongThongTinModel.create(
-      thiet_bi_id,don_vi_id,vi_tri_id,khu_vuc_id,don_vi_tinh_id, so_luong,loai_thiet_bi_id, ngay_lap,tinh_trang,ghi_chu
+      thiet_bi_id, don_vi_id, vi_tri_id, khu_vuc_id, don_vi_tinh_id, so_luong, loai_thiet_bi_id, ngay_lap, tinh_trang, ghi_chu
     );
     res.status(201).json({ message: 'Created successfully' });
   } catch (error) {
     console.error('Error creating tổng hợp hệ thống thông tin:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error.message || 'Internal server error' });
   }
 };
 
 const update = async (req, res) => {
-  
   try {
     const { id } = req.params;
-    const {  thiet_bi_id,don_vi_id,vi_tri_id,khu_vuc_id,don_vi_tinh_id, so_luong,loai_thiet_bi_id, ngay_lap,tinh_trang,ghi_chu } = req.body;
-    if (!thiet_bi_id || !don_vi_id || !vi_tri_id || !khu_vuc_id || !don_vi_tinh_id || so_luong === undefined || loai_thiet_bi_id === undefined) {
+    const { thiet_bi_id, don_vi_id, vi_tri_id, khu_vuc_id, don_vi_tinh_id, so_luong, loai_thiet_bi_id, ngay_lap, tinh_trang, ghi_chu } = req.body;
+    const requiredIds = [thiet_bi_id, don_vi_id, vi_tri_id, khu_vuc_id, don_vi_tinh_id, loai_thiet_bi_id];
+    if (requiredIds.some(value => !Number.isInteger(Number(value)) || Number(value) <= 0) || !Number.isInteger(Number(so_luong)) || Number(so_luong) < 0) {
       return res.status(400).json({ error: 'Missing required fields' });
     }
     const result = await tongHopHeThongThongTinModel.update(id, thiet_bi_id, don_vi_id, vi_tri_id, khu_vuc_id, don_vi_tinh_id, so_luong, loai_thiet_bi_id, ngay_lap, tinh_trang, ghi_chu);
@@ -51,7 +52,7 @@ const update = async (req, res) => {
     res.json({ message: 'Updated successfully' });
   } catch (error) {
     console.error('Error updating tổng hợp hệ thống thông tin:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: error.message || 'Internal server error' });
   }
 };
 const deleteById = async (req, res) => {

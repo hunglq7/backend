@@ -6,6 +6,8 @@ COPY package*.json ./
 
 COPY . .
 
+RUN npm install
+
 RUN npm ci --omit=dev
 
 RUN mkdir -p uploads

@@ -1,7 +1,7 @@
 services:
   mysql:
     image: mysql:8.0
-    container_name: camera-mysql
+    container_name: camera-mysql-tmd
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD:-LeHung@79}
@@ -9,7 +9,7 @@ services:
     ports:
       - "${MYSQL_PORT:-3306}:3306"
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$$MYSQL_ROOT_PASSWORD --silent"]
       interval: 5s
@@ -20,14 +20,14 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: camera-backend
+    container_name: camera-backend-tmd
     restart: unless-stopped
     depends_on:
       mysql:
         condition: service_healthy
     environment:
       NODE_ENV: production
-      PORT: 4003
+      PORT: 4002
       DB_HOST: mysql
       DB_PORT: 3306
       DB_USER: root
@@ -39,10 +39,21 @@ services:
       JWT_REFRESH_EXPIRES: ${JWT_REFRESH_EXPIRES:-7d}
       CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3333}
     ports:
-      - "${PORT:-4003}:4003"
+      - "${PORT:-4002}:4002"
     volumes:
       - ./uploads:/app/uploads
 
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: camera-frontend-tmd
+    restart: unless-stopped
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_PORT:-3333}:80"
+
 volumes:
   mysql_data:
-  driver: local
+   driver: local

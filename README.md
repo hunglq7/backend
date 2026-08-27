@@ -25,6 +25,25 @@ Backend API với MySQL và JWT authentication.
 3. Tạo database MySQL và bảng `users`.
 4. Tạo file `.env` từ `.env.example`.
 
+## Chạy bằng Docker
+
+Yêu cầu Docker Desktop đang chạy, sau đó thực hiện:
+
+```bash
+docker compose up -d --build
+```
+
+Backend chạy tại `http://localhost:4003` và Swagger tại `http://localhost:4003/api-docs`.
+Migrations được tự động chạy khi container backend khởi động. Dữ liệu MySQL nằm trong volume `mysql_data`, còn file upload được lưu trong thư mục `uploads/`.
+
+Để dừng các container:
+
+```bash
+docker compose down
+```
+
+Có thể tạo file `.env` cạnh `docker-compose.yml` để thay đổi `DB_PASSWORD`, `DB_NAME`, `PORT`, `JWT_ACCESS_SECRET` và `JWT_REFRESH_SECRET`. Không commit file `.env` chứa secret thật.
+
 ## MySQL schema mẫu
 
 ```sql

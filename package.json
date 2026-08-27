@@ -6,8 +6,7 @@
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
-    "swagger": "node generate-swagger.js",
-    "build": "echo \"Backend does not require a build step; run npm start or npm run dev\"",
+    "swagger": "node generate-swagger.js",  
     "migrate": "node migrate.js",
     "postinstall": "node fix-xlsx-tsconfig.js"
   },

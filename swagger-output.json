@@ -7,8 +7,8 @@
   },
   "servers": [
     {
-      "url": "http://localhost:4002",
-      "description": "Local server"
+      "url": "/",
+      "description": "Current server"
     }
   ],
   "tags": [

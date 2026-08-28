@@ -39,8 +39,8 @@ const document = {
   tags: routeGroups.map(([name]) => ({ name })),
   servers: [
     {
-      url: `http://localhost:${port}`,
-      description: 'Local server',
+      url: '/',
+      description: 'Current server',
     },
   ],
   components: {

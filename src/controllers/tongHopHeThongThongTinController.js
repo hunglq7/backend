@@ -1,4 +1,4 @@
-const tongHopHeThongThongTinModel = require('../models/tongHopHeThongThongTinModel');
+const tongHopHeThongThongTinModel = require('../models/tongHopHeThongThongTInModel');
 const getAll = async (req, res) => {
   try {
     const tongHopHeThongThongTins = await tongHopHeThongThongTinModel.getAll();

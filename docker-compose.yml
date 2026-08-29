@@ -37,7 +37,7 @@ services:
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-change-this-refresh-secret}
       JWT_ACCESS_EXPIRES: ${JWT_ACCESS_EXPIRES:-15m}
       JWT_REFRESH_EXPIRES: ${JWT_REFRESH_EXPIRES:-7d}
-      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3333,http://localhost:4002,http://127.0.0.1:4002,http://103.156.47.16:3333,http://103.156.47.16:4002,http://camera.thanmongduong.vn:3333}
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3333,http://localhost:4002,http://103.156.47.16:3333,http://103.156.47.16:4002,http://camera.thanmongduong.vn:3333}
     ports:
       - "${PORT:-4002}:4002"
     volumes:

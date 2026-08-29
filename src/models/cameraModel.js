@@ -2,7 +2,7 @@ const db = require('../libs/db');
 
 const getAllCameras = async () => {
   const [rows] = await db.execute(
-    'SELECT id, name, ip_address, location, is_online, last_check FROM cameras ORDER BY created_at DESC',
+    'SELECT id, name, ip_address, location, is_online, last_check FROM cameras ORDER BY ip_address ASC',
   );
   return rows.map(row => ({
     ...row,

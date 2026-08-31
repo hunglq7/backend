@@ -77,8 +77,8 @@ const getAllCameras = async (req, res) => {
     const cameras = await cameraModel.getAllCameras();
     res.json(cameras);
   } catch (error) {
-    console.error('Error fetching cameras:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('lỗi khi gọi API getAllCamera:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống' });
   }
 };
 

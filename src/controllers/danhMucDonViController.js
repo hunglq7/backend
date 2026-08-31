@@ -5,7 +5,7 @@ const getAll = async (req, res) => {
     const danhMucDonVi = await danhMucDonViModel.getAll();
     res.json(danhMucDonVi);
   } catch (error) {
-    console.error('Lỗi gọi API lấy tất cả danh mục đơn vị:', error);
+    console.error('Lỗi gọi API danhMucDonVi:', error);
     res.status(500).json({ error: 'Lỗi kết nối hệ thống' });
   }
 };

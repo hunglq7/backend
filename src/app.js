@@ -1,4 +1,5 @@
 const express = require("express");
+const fs = require("fs");
 const path = require("path");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
@@ -48,6 +49,23 @@ app.use(
 );
 app.use(express.json());
 app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
+const frontendBuildPath = path.resolve(__dirname, "../../frontend/build");
+const frontendIndexPath = path.join(frontendBuildPath, "index.html");
+
+if (fs.existsSync(frontendBuildPath) && fs.existsSync(frontendIndexPath)) {
+  app.use(express.static(frontendBuildPath));
+
+  app.get(
+    /^\/(?!api\/|uploads\/|upload\/|cameras\/|assets\/|@vite\/|favicon\.|manifest\.|robots\.txt|logo\d*\.|.*\.(js|css|svg|png|jpg|jpeg|gif|ico|json|map|woff|woff2|ttf|eot)$).*/,
+    (req, res, next) => {
+      if (req.accepts("html")) {
+        return res.sendFile(frontendIndexPath);
+      }
+      return next();
+    },
+  );
+}
 
 setupSwagger(app);
 

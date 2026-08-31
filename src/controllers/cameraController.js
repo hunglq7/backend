@@ -91,8 +91,8 @@ const getCameraById = async (req, res) => {
     }
     res.json(camera);
   } catch (error) {
-    console.error('Error fetching camera by id:', error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Lỗi gọi API getCameraById:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống' });
   }
 };
 

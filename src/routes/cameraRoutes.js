@@ -7,6 +7,7 @@ const router = express.Router();
 const upload = multer({ storage: multer.memoryStorage() });
 
 router.get('/', authenticate, cameraController.getAllCameras);
+router.get('/total', authenticate, cameraController.getTotalCameras);
 router.get('/template', authenticate, cameraController.getTemplate);
 router.post('/import', authenticate, upload.single('upload_file'), cameraController.importCameras);
 router.post('/check-status', authenticate, upload.single('upload_file'), cameraController.checkStatusByFile);

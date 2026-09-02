@@ -8,7 +8,7 @@ module.exports = {
         name VARCHAR(255) NOT NULL,
         ip_address VARCHAR(255) NOT NULL,
         location VARCHAR(255) DEFAULT NULL,
-        is_online BOOLEAN DEFAULT FALSE,
+        is_online BOOLEAN DEFAULT TRUE,
         last_check DATETIME DEFAULT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP

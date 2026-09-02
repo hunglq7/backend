@@ -15,6 +15,11 @@ const getAllCameras = async () => {
   }));
 };
 
+const getTotalCameras = async () => {
+  const [rows] = await db.execute('SELECT COUNT(*) AS total FROM cameras');
+  return rows[0].total;
+}
+
 const findById = async (id) => {
   const [rows] = await db.execute('SELECT * FROM cameras WHERE id = ?', [id]);
   if (!rows[0]) {
@@ -26,10 +31,10 @@ const findById = async (id) => {
   };
 };
 
-const createCamera = async (name, ip_address, location) => {
+const createCamera = async (name, ip_address, location, is_online, last_check) => {
   return db.execute(
     'INSERT INTO cameras (name, ip_address, location, is_online, last_check) VALUES (?, ?, ?, ?, ?)',
-    [name, ip_address, location, false, null],
+    [name, ip_address, location, is_online, last_check],
   );
 };
 
@@ -80,6 +85,7 @@ const deleteCameras = async (ids) => {
 
 module.exports = {
   getAllCameras,
+  getTotalCameras,
   findById,
   createCamera,
   updateCamera,

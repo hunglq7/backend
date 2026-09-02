@@ -82,6 +82,16 @@ const getAllCameras = async (req, res) => {
   }
 };
 
+const getTotalCameras = async (req, res) => {
+  try {
+    const total = await cameraModel.getTotalCameras();
+    res.json({ total });
+  } catch (error) {
+    console.error('Lỗi khi gọi API getTotalCameras:', error);
+    res.status(500).json({ error: 'Lỗi hệ thống' });
+  }
+};
+
 const getCameraById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -98,19 +108,19 @@ const getCameraById = async (req, res) => {
 
 const createCamera = async (req, res) => {
   try {
-    const { name, ip_address, location } = req.body;
+    const { name, ip_address, location, is_online, last_check } = req.body;
     if (!name || !ip_address) {
       return res.status(400).json({ error: 'Name and IP address are required' });
     }
 
-    const [result] = await cameraModel.createCamera(name, ip_address, location || null);
+    const [result] = await cameraModel.createCamera(name, ip_address, location || null, typeof is_online === 'boolean' ? is_online : true, last_check || null);
     res.status(201).json({
       id: result.insertId,
       name,
       ip_address,
       location: location || null,
-      is_online: false,
-      last_check: null,
+      is_online: typeof is_online === 'boolean' ? is_online : true,
+      last_check: last_check || null,
     });
   } catch (error) {
     console.error('Error creating camera:', error);
@@ -121,7 +131,7 @@ const createCamera = async (req, res) => {
 const updateCamera = async (req, res) => {
   try {
     const { id } = req.params;
-    const { name, ip_address, location, is_online } = req.body;
+    const { name, ip_address, location, is_online, last_check } = req.body;
     const camera = await cameraModel.findById(id);
     if (!camera) {
       return res.status(404).json({ error: 'Camera not found' });
@@ -306,6 +316,7 @@ const importCameras = async (req, res) => {
 
 module.exports = {
   getAllCameras,
+  getTotalCameras,
   getCameraById,
   createCamera,
   updateCamera,
